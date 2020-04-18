@@ -1,7 +1,9 @@
+# Objectif : tester un thème ggplot, et des palettes de couleurs personnalisées pour utiliser dans mes graphiques
+
 # packages ====
 library(ggplot2)
 library(dplyr)
-
+library(jcan)
 
 
 # Dataset ====
@@ -66,7 +68,128 @@ g3 +
 
 
 g2 +
-  theme_jcantet()
+  theme_jcantet()+
+  scale_color_jcan(palette = "principale", discrete = TRUE, reverse = TRUE)
 
 g1 +
   theme_jcantet()
+
+
+
+
+
+# Palette custom ====
+
+# Set de couleurs 
+jcan_colors <- c(
+  `bleu`  = "#235789",
+  `bleu clair` = "#3F88C5",
+  `rouge` = "#DB3A34",
+  `vert` = "#078339",
+  `vert clair` = "#5FAD41",
+  `orange` = "#FF8C42",
+  `bleu gris` = "#4F5D75",
+  `jaune` = "#FFBA08",
+  `violet` = "#7F2982",
+  `blanc` = "#EDF4F9")
+
+
+
+
+#' Fonction pour extraire mes couleurs comme des hex codes
+#'
+#' @param ... Character names of jcan_colors 
+#'
+jcan_cols <- function(...) {
+  cols <- c(...)
+  
+  if (is.null(cols))
+    return (jcan_colors)
+  
+  jcan_colors[cols]
+}
+jcan_cols()
+
+
+# Palette
+jcan_palettes <- list(
+  `principale` = jcan_cols("bleu clair", "rouge","vert","orange","violet","jaune","bleu gris","vert clair"),
+  `progressive bleue` = jcan_cols("bleu clair", "blanc"),
+  `progressive rouge` = jcan_cols("rouge", "blanc"),
+  `divergente` = jcan_cols("bleu clair" ,"blanc","rouge")
+  )
+
+
+#' Fonction pour interpoler une palette custom
+#'
+#' @param palette Character name of palette in jcan_palettes
+#' @param reverse Boolean indicating whether the palette should be reversed
+#' @param ... Additional arguments to pass to colorRampPalette() comme l'inversion de la palette
+#'
+jcan_pal <- function(palette = "principale", reverse = FALSE, ...) {
+  pal <- jcan_palettes[[palette]]
+  
+  if (reverse) pal <- rev(pal)
+  
+  colorRampPalette(pal, ...)
+}
+
+
+
+
+
+
+#' Color scale constructor for jcan colors
+#'
+#' @param palette Character name of palette in jcan_palettes
+#' @param discrete Boolean indicating whether color aesthetic is discrete or not
+#' @param reverse Boolean indicating whether the palette should be reversed
+#' @param ... Additional arguments passed to discrete_scale() or
+#'            scale_color_gradientn(), used respectively when discrete is TRUE or FALSE
+#'
+scale_color_jcan <- function(palette = "principale", discrete = TRUE, reverse = FALSE, ...) {
+  pal <- jcan_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale("colour", paste0("jcan_", palette), palette = pal, ...)
+  } else {
+    scale_color_gradientn(colours = pal(256), ...)
+  }
+}
+
+#' Fill scale constructor for drsimonj colors
+#'
+#' @param palette Character name of palette in jcan_palettes
+#' @param discrete Boolean indicating whether color aesthetic is discrete or not
+#' @param reverse Boolean indicating whether the palette should be reversed
+#' @param ... Additional arguments passed to discrete_scale() or
+#'            scale_fill_gradientn(), used respectively when discrete is TRUE or FALSE
+#'
+scale_fill_jcan <- function(palette = "principale", discrete = TRUE, reverse = FALSE, ...) {
+  pal <- jcan_pal(palette = palette, reverse = reverse)
+  
+  if (discrete) {
+    discrete_scale("fill", paste0("jcan_", palette), palette = pal, ...)
+  } else {
+    scale_fill_gradientn(colours = pal(256), ...)
+  }
+}
+
+
+
+
+
+
+g1+
+  theme_jcantet()+
+  scale_color_jcan(palette = "principale")
+
+
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive rouge", discrete = FALSE, reverse = TRUE)
+
+
+g2 +
+  theme_jcantet()+
+  scale_color_jcan(discrete = TRUE, palette = "principale")
