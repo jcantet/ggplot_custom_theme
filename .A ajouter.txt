@@ -1,0 +1,5 @@
+> fonction moyenne mobile
+
+> background legend key comme le reste du graphique
+
+> tester aussi la taille plus grosse pour ces éléments bakcground

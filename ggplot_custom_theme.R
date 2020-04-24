@@ -82,18 +82,22 @@ g1 +
 
 # Set de couleurs 
 jcan_colors <- c(
-  `bleu`  = "#235789",
+  `bleu`  = "#004385",
   `bleu clair` = "#3F88C5",
-  `rouge` = "#DB3A34",
+  `rouge` = "#CD342F",
   `vert` = "#078339",
   `vert clair` = "#5FAD41",
   `orange` = "#FF8C42",
   `bleu gris` = "#4F5D75",
   `jaune` = "#FFBA08",
   `violet` = "#7F2982",
-  `blanc` = "#EDF4F9")
-
-
+  `blanc` = "#EDF4F9",
+  `bleu tres clair` = "#DFEBF5",
+  `rouge tres clair` = "#F7DDDC",
+  `vert tres clair` = "#D6EADE",
+  `violet tres clair` = "#EADBEA",
+  `violet grad` = "#432371",
+  `orange grad` = "#FAAE7B")
 
 
 #' Fonction pour extraire mes couleurs comme des hex codes
@@ -115,7 +119,14 @@ jcan_cols()
 jcan_palettes <- list(
   `principale` = jcan_cols("bleu clair", "rouge","vert","orange","violet","jaune","bleu gris","vert clair"),
   `progressive bleue` = jcan_cols("bleu clair", "blanc"),
+  `progressive bleue2` = jcan_cols("bleu clair", "bleu tres clair"),
   `progressive rouge` = jcan_cols("rouge", "blanc"),
+  `progressive rouge2` = jcan_cols("rouge", "rouge tres clair"),
+  `progressive vert` = jcan_cols("vert","blanc"),
+  `progressive vert2` = jcan_cols("vert","vert tres clair"),
+  `progressive violet` = jcan_cols("violet","white"),
+  `progressive violet2` = jcan_cols("violet","violet tres clair"),
+  `VioletOrange` = jcan_cols("violet grad", "orange grad"),
   `divergente` = jcan_cols("bleu clair" ,"blanc","rouge")
   )
 
@@ -177,7 +188,44 @@ scale_fill_jcan <- function(palette = "principale", discrete = TRUE, reverse = F
 
 
 
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive rouge", discrete = FALSE, reverse = TRUE)
 
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive rouge2", discrete = FALSE, reverse = TRUE)
+
+
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive bleue", discrete = FALSE, reverse = TRUE)
+
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive bleue2", discrete = FALSE, reverse = TRUE)
+
+
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive vert", discrete = FALSE, reverse = TRUE)
+
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive vert2", discrete = FALSE, reverse = TRUE)
+
+
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive violet", discrete = FALSE, reverse = TRUE)
+
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "progressive violet2", discrete = FALSE, reverse = TRUE)
+
+g3 +
+  theme_jcantet()+
+  scale_fill_jcan(palette = "VioletOrange", discrete = FALSE, reverse = TRUE)
 
 
 g1+
@@ -185,9 +233,6 @@ g1+
   scale_color_jcan(palette = "principale")
 
 
-g3 +
-  theme_jcantet()+
-  scale_fill_jcan(palette = "progressive rouge", discrete = FALSE, reverse = TRUE)
 
 
 g2 +
